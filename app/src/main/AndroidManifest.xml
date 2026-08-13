@@ -5,7 +5,8 @@
 
     <application
         android:theme="@style/AppTheme"
-        android:label="RHPROcarbon Banda Aceh">
+        android:label="RHPROcarbon Banda Aceh"
+        android:icon="@mipmap/logo">
 
         <activity
             android:name=".MainActivity"
