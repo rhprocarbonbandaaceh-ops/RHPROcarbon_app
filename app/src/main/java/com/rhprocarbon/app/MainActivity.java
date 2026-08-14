@@ -187,6 +187,6 @@ private int dp(int value) {
                     .density
     );
 }
-```
+
 
 }
