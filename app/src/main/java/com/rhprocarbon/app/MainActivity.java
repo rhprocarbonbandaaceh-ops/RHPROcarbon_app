@@ -1,4 +1,3 @@
-```java
 package com.rhprocarbon.app;
 
 import android.app.Activity;
@@ -10,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -23,199 +21,172 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-    private WebView webView;
-    private LinearLayout splashLayout;
+```
+private WebView webView;
+private LinearLayout splashLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        // Warna status bar
-        getWindow().setStatusBarColor(Color.BLACK);
-        getWindow().setNavigationBarColor(Color.BLACK);
+    getWindow().setStatusBarColor(Color.BLACK);
+    getWindow().setNavigationBarColor(Color.BLACK);
 
-        // =========================
-        // SPLASH SCREEN
-        // =========================
+    splashLayout = new LinearLayout(this);
+    splashLayout.setOrientation(LinearLayout.VERTICAL);
+    splashLayout.setGravity(Gravity.CENTER);
 
-        splashLayout = new LinearLayout(this);
-        splashLayout.setOrientation(LinearLayout.VERTICAL);
-        splashLayout.setGravity(Gravity.CENTER);
+    GradientDrawable background = new GradientDrawable();
+    background.setColor(Color.rgb(3, 7, 15));
+    splashLayout.setBackground(background);
 
-        GradientDrawable background = new GradientDrawable();
-        background.setColor(Color.rgb(3, 7, 15));
-        splashLayout.setBackground(background);
+    ImageView logo = new ImageView(this);
+    logo.setImageResource(R.drawable.logo);
+    logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-        // Logo
-        ImageView logo = new ImageView(this);
-        logo.setImageResource(R.drawable.logo);
-        logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+    LinearLayout.LayoutParams logoParams =
+            new LinearLayout.LayoutParams(dp(280), dp(280));
 
-        LinearLayout.LayoutParams logoParams =
-                new LinearLayout.LayoutParams(
-                        dp(280),
-                        dp(280)
-                );
+    splashLayout.addView(logo, logoParams);
 
-        splashLayout.addView(logo, logoParams);
+    TextView title = new TextView(this);
+    title.setText("RHPROCARBON");
+    title.setTextColor(Color.WHITE);
+    title.setTextSize(25);
+    title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+    title.setGravity(Gravity.CENTER);
 
-        // Nama
-        TextView title = new TextView(this);
-        title.setText("RHPROCARBON");
-        title.setTextColor(Color.WHITE);
-        title.setTextSize(25);
-        title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        title.setGravity(Gravity.CENTER);
+    splashLayout.addView(title);
 
-        splashLayout.addView(title);
+    TextView subtitle = new TextView(this);
+    subtitle.setText("BANDA ACEH");
+    subtitle.setTextColor(Color.rgb(0, 140, 255));
+    subtitle.setTextSize(14);
+    subtitle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+    subtitle.setGravity(Gravity.CENTER);
 
-        // Subjudul
-        TextView subtitle = new TextView(this);
-        subtitle.setText("BANDA ACEH");
-        subtitle.setTextColor(Color.rgb(0, 140, 255));
-        subtitle.setTextSize(14);
-        subtitle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        subtitle.setGravity(Gravity.CENTER);
+    LinearLayout.LayoutParams subParams =
+            new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
 
-        LinearLayout.LayoutParams subParams =
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
+    subParams.topMargin = dp(5);
+    splashLayout.addView(subtitle, subParams);
 
-        subParams.topMargin = dp(5);
-        splashLayout.addView(subtitle, subParams);
+    TextView loading = new TextView(this);
+    loading.setText("MEMUAT...");
+    loading.setTextColor(Color.LTGRAY);
+    loading.setTextSize(12);
+    loading.setGravity(Gravity.CENTER);
 
-        // Loading
-        TextView loading = new TextView(this);
-        loading.setText("MEMUAT...");
-        loading.setTextColor(Color.LTGRAY);
-        loading.setTextSize(12);
-        loading.setGravity(Gravity.CENTER);
+    LinearLayout.LayoutParams loadingParams =
+            new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
 
-        LinearLayout.LayoutParams loadingParams =
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
+    loadingParams.topMargin = dp(30);
+    splashLayout.addView(loading, loadingParams);
 
-        loadingParams.topMargin = dp(30);
-        splashLayout.addView(loading, loadingParams);
+    setContentView(splashLayout);
 
-        setContentView(splashLayout);
+    ScaleAnimation zoom = new ScaleAnimation(
+            0.75f, 1.0f,
+            0.75f, 1.0f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+    );
 
-        // =========================
-        // ANIMASI LOGO
-        // =========================
+    zoom.setDuration(1000);
+    zoom.setFillAfter(true);
+    logo.startAnimation(zoom);
 
-        ScaleAnimation zoom = new ScaleAnimation(
-                0.75f, 1.0f,
-                0.75f, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f
-        );
+    AlphaAnimation fade = new AlphaAnimation(0.0f, 1.0f);
+    fade.setDuration(1000);
+    fade.setFillAfter(true);
+    title.startAnimation(fade);
 
-        zoom.setDuration(1000);
-        zoom.setFillAfter(true);
+    AlphaAnimation subtitleFade = new AlphaAnimation(0.0f, 1.0f);
+    subtitleFade.setStartOffset(500);
+    subtitleFade.setDuration(800);
+    subtitleFade.setFillAfter(true);
+    subtitle.startAnimation(subtitleFade);
 
-        AlphaAnimation fade = new AlphaAnimation(0.0f, 1.0f);
-        fade.setDuration(1000);
-        fade.setFillAfter(true);
+    AlphaAnimation loadingFade = new AlphaAnimation(0.0f, 1.0f);
+    loadingFade.setStartOffset(900);
+    loadingFade.setDuration(800);
+    loadingFade.setFillAfter(true);
+    loading.startAnimation(loadingFade);
 
-        logo.startAnimation(zoom);
-        title.startAnimation(fade);
+    new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            openWebsite();
+        }
+    }, 2500);
+}
 
-        AlphaAnimation subtitleFade = new AlphaAnimation(0.0f, 1.0f);
-        subtitleFade.setStartOffset(500);
-        subtitleFade.setDuration(800);
-        subtitleFade.setFillAfter(true);
+private void openWebsite() {
 
-        subtitle.startAnimation(subtitleFade);
+    webView = new WebView(this);
 
-        AlphaAnimation loadingFade = new AlphaAnimation(0.0f, 1.0f);
-        loadingFade.setStartOffset(900);
-        loadingFade.setDuration(800);
-        loadingFade.setFillAfter(true);
+    webView.getSettings().setJavaScriptEnabled(true);
+    webView.getSettings().setDomStorageEnabled(true);
 
-        loading.startAnimation(loadingFade);
+    webView.setWebViewClient(new WebViewClient() {
 
-        // =========================
-        // SETELAH 2.5 DETIK
-        // BUKA WEBSITE
-        // =========================
+        @Override
+        public boolean shouldOverrideUrlLoading(
+                WebView view,
+                String url) {
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                openWebsite();
-            }
-        }, 2500);
-    }
-
-    private void openWebsite() {
-
-        webView = new WebView(this);
-
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(
-                    WebView view,
-                    String url) {
-
-                if (url.startsWith("whatsapp://")) {
-
-                    try {
-                        Intent intent =
-                                new Intent(Intent.ACTION_VIEW);
-
-                        intent.setData(Uri.parse(url));
-                        startActivity(intent);
-
-                    } catch (Exception e) {
-                        // WhatsApp tidak tersedia
-                    }
-
-                    return true;
-                }
-
-                if (url.startsWith("http://")
-                        || url.startsWith("https://")) {
-
-                    view.loadUrl(url);
-                    return true;
+            if (url.startsWith("whatsapp://")) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception e) {
                 }
 
                 return true;
             }
-        });
 
-        webView.loadUrl(
-                "https://rhprocarbonbandaaceh-ops.github.io/rhprocarbon_bna.com/"
-        );
+            if (url.startsWith("http://")
+                    || url.startsWith("https://")) {
 
-        setContentView(webView);
-    }
+                view.loadUrl(url);
+                return true;
+            }
 
-    @Override
-    public void onBackPressed() {
-
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
+            return true;
         }
-    }
+    });
 
-    private int dp(int value) {
-        return (int) (
-                value * getResources()
-                        .getDisplayMetrics()
-                        .density
-        );
+    webView.loadUrl(
+            "https://rhprocarbonbandaaceh-ops.github.io/rhprocarbon_bna.com/"
+    );
+
+    setContentView(webView);
+}
+
+@Override
+public void onBackPressed() {
+
+    if (webView != null && webView.canGoBack()) {
+        webView.goBack();
+    } else {
+        super.onBackPressed();
     }
 }
+
+private int dp(int value) {
+    return (int) (
+            value * getResources()
+                    .getDisplayMetrics()
+                    .density
+    );
+}
 ```
+
+}
