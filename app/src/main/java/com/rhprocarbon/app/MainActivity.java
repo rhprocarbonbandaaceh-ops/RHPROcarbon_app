@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-```
+
 private WebView webView;
 private LinearLayout splashLayout;
 
